@@ -1,18 +1,21 @@
-kernel := target/riscv32/debug/rbl
+arch := riscv32
+kernel := target/$(arch)/debug/rbl
+qemu-opts := \
+		-smp cores=1 \
+		-machine virt \
+		-kernel $(kernel) \
+		-nographic
 
-.PHONY: build run debug
+.PHONY: build run debug $(kernel)
 
 $(kernel):
-	@cargo xbuild --target=riscv32.json
+	@cargo xbuild --target=$(arch).json
 
 build: $(kernel)
 
 run: build
-	@qemu-system-riscv32 \
-		-smp cores=1 \
-		-machine virt \
-		-kernel $(kernel) \
-		-nographic \
-		-s
+	@qemu-system-$(arch) $(qemu-opts)
+
 debug:
-	@gdb $(kernel) -x gdbinit
+	@tmux split-window "sleep 1 && rust-gdb $(kernel) -x gdbinit"
+	@qemu-system-$(arch) $(qemu-opts) -s -S
