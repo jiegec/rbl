@@ -16,6 +16,6 @@ build: $(kernel)
 run: build
 	@qemu-system-$(arch) $(qemu-opts)
 
-debug:
+debug: build
 	@tmux split-window "sleep 1 && rust-gdb $(kernel) -x gdbinit"
 	@qemu-system-$(arch) $(qemu-opts) -s -S

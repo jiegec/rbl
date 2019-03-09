@@ -1,8 +1,8 @@
-use core::mem::size_of;
 use crate::consts::KERNEL_HEAP_SIZE;
 use crate::HEAP_ALLOCATOR;
+use core::mem::size_of;
 
-extern {
+extern "C" {
     fn sbss();
     fn ebss();
 }
@@ -21,6 +21,8 @@ pub fn clear_bss() {
 pub fn init_heap() {
     static mut HEAP: [u8; KERNEL_HEAP_SIZE] = [0; KERNEL_HEAP_SIZE];
     unsafe {
-        HEAP_ALLOCATOR.lock().init(HEAP.as_ptr() as usize, KERNEL_HEAP_SIZE);
+        HEAP_ALLOCATOR
+            .lock()
+            .init(HEAP.as_ptr() as usize, KERNEL_HEAP_SIZE);
     }
 }
