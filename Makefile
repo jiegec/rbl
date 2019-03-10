@@ -1,5 +1,6 @@
 arch := riscv32
 kernel := target/$(arch)/debug/rbl
+payload := ../rcore_plus_lab/kernel/target/$(arch)/debug/rcore
 qemu-opts := \
 		-smp cores=1 \
 		-machine virt \
@@ -8,7 +9,10 @@ qemu-opts := \
 
 .PHONY: build run debug $(kernel)
 
-$(kernel):
+payload: $(payload)
+	cp $(payload) payload
+
+$(kernel): payload
 	@cargo xbuild --target=$(arch).json
 
 build: $(kernel)

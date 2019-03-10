@@ -3,9 +3,10 @@
 #![feature(lang_items)]
 #![feature(alloc)]
 #![feature(global_asm)]
+#![feature(asm)]
 #![feature(panic_info_message)]
-#![no_std]
 #![deny(warnings)]
+#![no_std]
 
 extern crate alloc;
 extern crate lazy_static;
@@ -25,6 +26,7 @@ mod device_tree;
 mod lang_items;
 mod memory;
 mod trap;
+mod load;
 
 #[global_allocator]
 static HEAP_ALLOCATOR: LockedHeap = LockedHeap::empty();
