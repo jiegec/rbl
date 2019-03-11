@@ -3,7 +3,6 @@
 use super::device_tree;
 use super::load;
 use super::memory;
-use super::trap;
 
 #[no_mangle]
 pub extern "C" fn abort() {
@@ -12,8 +11,6 @@ pub extern "C" fn abort() {
 
 #[no_mangle]
 pub extern "C" fn boot_first_hart(hartid: usize, dtb: usize) -> ! {
-    trap::init();
-
     memory::clear_bss();
     memory::init_heap();
 

@@ -24,9 +24,9 @@ mod boot;
 mod consts;
 mod device_tree;
 mod lang_items;
+mod load;
 mod memory;
 mod trap;
-mod load;
 
 #[global_allocator]
 static HEAP_ALLOCATOR: LockedHeap = LockedHeap::empty();
